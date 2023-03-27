@@ -113,7 +113,7 @@ variable "linux_os_version" {
 
 variable "instance_shape" {
   description = "Instance Shape"
-  default     = "VM.Standard.E4.Flex"
+  default     = "BM.Standard3.64"
 }
 
 
@@ -129,7 +129,8 @@ variable "instance_flex_shape_memory" {
 locals {
   compute_flexible_shapes = [
     "VM.Standard.E3.Flex",
-    "VM.Standard.E4.Flex"
+    "VM.Standard.E4.Flex",
+    "BM.Standard3.64"
   ]
 }
 
@@ -168,5 +169,3 @@ locals {
   redis_cluster_without_bastion               = !var.use_private_subnet && var.cluster_enabled ? 1 : 0
   redis_cluster_with_bastion                  = var.use_private_subnet && var.cluster_enabled ? 1 : 0
 }
-
-

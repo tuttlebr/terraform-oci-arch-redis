@@ -220,7 +220,7 @@ variables:
   instance_shape:
     type: oci:core:instanceshape:name
     required: false
-    default: "VM.Standard.E4.Flex"
+    default: "BM.Standard3.64"
     title: "Instance shape for Redis compute instances"
     description: "Choose the shape of the VM used for Redis compute instances."
     dependsOn:
@@ -244,6 +244,9 @@ variables:
           - eq:
             - instance_shape 
             - "VM.Standard.E4.Flex"
+          - eq:
+            - instance_shape 
+            - "BM.Standard3.64"
 
   instance_flex_shape_memory:
     type: number
@@ -263,6 +266,9 @@ variables:
           - eq:
             - instance_shape 
             - "VM.Standard.E4.Flex"
+          - eq:
+            - instance_shape
+            - "BM.Standard3.64"
 
   instance_os:
     type: enum

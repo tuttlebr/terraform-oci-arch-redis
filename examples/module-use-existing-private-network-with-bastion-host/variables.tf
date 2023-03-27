@@ -10,7 +10,7 @@ variable "compartment_ocid" {}
 
 variable "bastion_shape" {
   description = "Instance Shape"
-  default     = "VM.Standard.E4.Flex"
+  default     = "BM.Standard3.64"
 }
 
 variable "bastion_flex_shape_ocpus" {
@@ -38,7 +38,8 @@ variable "linux_os_version" {
 locals {
   compute_flexible_shapes = [
     "VM.Standard.E3.Flex",
-    "VM.Standard.E4.Flex"
+    "VM.Standard.E4.Flex",
+    "BM.Standard3.64"
   ]
   is_flexible_node_shape                  = contains(local.compute_flexible_shapes, var.bastion_shape)
   availability_domain_name                = var.availability_domain_name == "" ? lookup(data.oci_identity_availability_domains.ADs.availability_domains[0], "name") : var.availability_domain_name
