@@ -22,11 +22,11 @@ resource "oci_logging_unified_agent_configuration" "redis_log_agent_config" {
   description    = "Log Agent configuration for Redis nodes"
   display_name   = "redis-log-agent-config"
 
-  group_association {
-    group_list = [
-      oci_identity_dynamic_group.redis_dynamic_group[0].id
-    ]
-  }
+  # group_association {
+  #   group_list = [
+  #     oci_identity_dynamic_group.redis_dynamic_group[0].id
+  #   ]
+  # }
   is_enabled = true
 
   service_configuration {
