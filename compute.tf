@@ -70,7 +70,7 @@ resource "oci_core_instance" "redis_master" {
   }
 
 #   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}
 
 resource "oci_core_instance" "redis_replica" {
   count               = var.numberOfReplicaNodes

@@ -10,7 +10,7 @@ resource "oci_core_virtual_network" "redis-vcn" {
 
 #   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 
-# }
+}
 
 resource "oci_core_internet_gateway" "redis-igw" {
   count          = (!var.use_existing_vcn && !var.use_private_subnet) ? 1 : 0
@@ -19,7 +19,7 @@ resource "oci_core_internet_gateway" "redis-igw" {
   vcn_id         = oci_core_virtual_network.redis-vcn[0].id
 
 #   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}
 
 resource "oci_core_nat_gateway" "redis-nat" {
   count          = (!var.use_existing_vcn && var.use_private_subnet) ? 1 : 0
@@ -28,7 +28,7 @@ resource "oci_core_nat_gateway" "redis-nat" {
   vcn_id         = oci_core_virtual_network.redis-vcn[0].id
 
 #   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}
 
 resource "oci_core_route_table" "redis-pub-rt" {
   count          = (!var.use_existing_vcn && !var.use_private_subnet) ? 1 : 0
@@ -43,7 +43,7 @@ resource "oci_core_route_table" "redis-pub-rt" {
   }
 
 #   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}
 
 resource "oci_core_route_table" "redis-priv-rt" {
   count          = (!var.use_existing_vcn && var.use_private_subnet) ? 1 : 0
@@ -58,7 +58,7 @@ resource "oci_core_route_table" "redis-priv-rt" {
   }
 
 #   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}
 
 resource "oci_core_subnet" "redis-subnet" {
   count             = !var.use_existing_vcn ? 1 : 0
@@ -73,4 +73,4 @@ resource "oci_core_subnet" "redis-subnet" {
   prohibit_public_ip_on_vnic = var.use_private_subnet ? true : false
 
 #   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}

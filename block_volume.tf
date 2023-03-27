@@ -8,7 +8,7 @@ resource "oci_core_volume" "redis_master_volume" {
   display_name        = "redis_master_volume${count.index+1}"
   size_in_gbs         = var.iscsi_volume_size_in_gbs
 #   defined_tags        = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}
 
 resource "oci_core_volume_attachment" "redis_master_volume_attachment" {
   count           = var.numberOfMasterNodes > 0  && var.add_iscsi_volume ? var.numberOfMasterNodes : 0
@@ -24,7 +24,7 @@ resource "oci_core_volume" "redis_replica_volume" {
   display_name        = "redis_replica_volume${count.index+1}"
   size_in_gbs         = var.iscsi_volume_size_in_gbs
 #   defined_tags        = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-# }
+}
 
 resource "oci_core_volume_attachment" "redis_replica_volume_attachment" {
   count           = var.numberOfReplicaNodes > 0  && var.add_iscsi_volume ? var.numberOfReplicaNodes : 0
