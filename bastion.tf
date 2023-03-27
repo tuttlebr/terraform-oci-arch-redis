@@ -7,7 +7,7 @@ resource "oci_bastion_bastion" "bastion-service" {
   compartment_id               = var.compartment_ocid
   target_subnet_id             = !var.use_existing_vcn ? oci_core_subnet.redis-subnet[0].id : var.redis_subnet_id
   client_cidr_block_allow_list = ["0.0.0.0/0"]
-  defined_tags                 = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  # defined_tags                 = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
   name                         = "BastionService${random_id.tag.hex}"
   max_session_ttl_in_seconds   = 10800
 }
