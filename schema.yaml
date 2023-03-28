@@ -222,7 +222,7 @@ variables:
     required: false
     default: "BM.Standard3.64"
     title: "Instance shape for Redis compute instances"
-    description: "Choose the shape of the VM used for Redis compute instances."
+    description: "Choose the shape used for Redis compute instances."
     dependsOn:
       compartmentId: ${compartment_ocid}
 
@@ -244,9 +244,6 @@ variables:
           - eq:
             - instance_shape 
             - "VM.Standard.E4.Flex"
-          - eq:
-            - instance_shape 
-            - "BM.Standard3.64"
 
   instance_flex_shape_memory:
     type: number
@@ -266,9 +263,6 @@ variables:
           - eq:
             - instance_shape 
             - "VM.Standard.E4.Flex"
-          - eq:
-            - instance_shape
-            - "BM.Standard3.64"
 
   instance_os:
     type: enum

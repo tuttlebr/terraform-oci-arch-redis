@@ -129,8 +129,7 @@ variable "instance_flex_shape_memory" {
 locals {
   compute_flexible_shapes = [
     "VM.Standard.E3.Flex",
-    "VM.Standard.E4.Flex",
-    "BM.Standard3.64"
+    "VM.Standard.E4.Flex"
   ]
 }
 
