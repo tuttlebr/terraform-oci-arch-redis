@@ -376,6 +376,7 @@ resource "null_resource" "redis_replica_bootstrap_without_bastion" {
       timeout     = "10m"
     }
     inline = [
+      "ls -la ~/",
       "chmod +x ~/redis_bootstrap_replica.sh",
       "sudo ~/redis_bootstrap_replica.sh",
     ]
