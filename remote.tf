@@ -275,7 +275,7 @@ resource "null_resource" "redis_master_bootstrap_with_bastion" {
     }
     inline = [
       "ls -la ~/",
-      "cat ~/myssh.sh",
+      "cat /home/opc/myssh.sh",
       "chmod +x ~/redis_bootstrap_master.sh",
       "sudo ~/redis_bootstrap_master.sh",
     ]
