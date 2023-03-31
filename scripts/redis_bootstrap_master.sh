@@ -181,4 +181,3 @@ systemctl daemon-reload
 systemctl enable redis-sentinel
 systemctl restart redis-sentinel
 systemctl status redis-sentinel
-

@@ -29,7 +29,7 @@ data "oci_core_vnic_attachments" "redis_master_vnics" {
 }
 
 data "oci_core_vnic" "redis_master_vnic" {
-  count               = var.numberOfMasterNodes
+  count   = var.numberOfMasterNodes
   vnic_id = data.oci_core_vnic_attachments.redis_master_vnics[count.index].vnic_attachments.0.vnic_id
 }
 
@@ -41,13 +41,16 @@ data "oci_core_vnic_attachments" "redis_replica_vnics" {
 }
 
 data "oci_core_vnic" "redis_replica_vnic" {
-  count               = var.numberOfReplicaNodes
-  vnic_id             = data.oci_core_vnic_attachments.redis_replica_vnics[count.index].vnic_attachments.0.vnic_id
+  count   = var.numberOfReplicaNodes
+  vnic_id = data.oci_core_vnic_attachments.redis_replica_vnics[count.index].vnic_attachments.0.vnic_id
 }
 
 
 data "oci_identity_region_subscriptions" "home_region_subscriptions" {
   tenancy_id = var.tenancy_ocid
 
+  filter {
+    name   = "is_home_region"
+    values = [true]
+  }
 }
-

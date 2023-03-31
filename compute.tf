@@ -22,8 +22,9 @@ data "template_cloudinit_config" "cloud_init" {
 resource "oci_core_instance" "redis_master" {
   count               = var.numberOfMasterNodes
   availability_domain = local.availability_domain_name
+  fault_domain        = "FAULT-DOMAIN-1"
   compartment_id      = var.compartment_ocid
-  display_name        = "redis${count.index+1}"
+  display_name        = "redis${count.index + 1}"
   shape               = var.instance_shape
 
   dynamic "shape_config" {
@@ -51,7 +52,7 @@ resource "oci_core_instance" "redis_master" {
     subnet_id        = !var.use_existing_vcn ? oci_core_subnet.redis-subnet[0].id : var.redis_subnet_id
     display_name     = "primaryvnic"
     assign_public_ip = var.use_private_subnet ? false : true
-    hostname_label   = "${var.redis-prefix}${count.index+1}"
+    hostname_label   = "${var.redis-prefix}${count.index + 1}"
   }
 
   source_details {
@@ -68,14 +69,15 @@ resource "oci_core_instance" "redis_master" {
     command = "sleep 240"
   }
 
-#   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  # defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_instance" "redis_replica" {
   count               = var.numberOfReplicaNodes
   availability_domain = local.availability_domain_name
+  fault_domain        = "FAULT-DOMAIN-2"
   compartment_id      = var.compartment_ocid
-  display_name        = "redis${count.index+1+var.numberOfMasterNodes}"
+  display_name        = "redis${count.index + 1 + var.numberOfMasterNodes}"
   shape               = var.instance_shape
 
   dynamic "shape_config" {
@@ -103,7 +105,7 @@ resource "oci_core_instance" "redis_replica" {
     subnet_id        = !var.use_existing_vcn ? oci_core_subnet.redis-subnet[0].id : var.redis_subnet_id
     display_name     = "primaryvnic"
     assign_public_ip = var.use_private_subnet ? false : true
-    hostname_label   = "${var.redis-prefix}${count.index+1+var.numberOfMasterNodes}"
+    hostname_label   = "${var.redis-prefix}${count.index + 1 + var.numberOfMasterNodes}"
   }
 
   source_details {

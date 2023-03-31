@@ -38,8 +38,8 @@ data "template_file" "redis_bootstrap_replica_template" {
 }
 
 data "template_file" "redis_bootstrap_cluster_template" {
-  count      = var.cluster_enabled ? 1 : 0
-  template   = file("${path.module}/scripts/redis_bootstrap_cluster.sh")
+  count    = var.cluster_enabled ? 1 : 0
+  template = file("${path.module}/scripts/redis_bootstrap_cluster.sh")
 
   vars = {
     redis_master_private_ips_with_port  = local.redis_master_private_ips_with_port
@@ -92,7 +92,7 @@ resource "null_resource" "redis_master_attach_volume_without_bastion" {
     }
     inline = ["sudo /bin/su -c \"chown root /home/opc/iscsiattach.sh\"",
       "sudo /bin/su -c \"chmod u+x /home/opc/iscsiattach.sh\"",
-      "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
+    "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
   }
 
   provisioner "remote-exec" {
@@ -146,7 +146,6 @@ resource "null_resource" "redis_master_bootstrap_without_bastion" {
       timeout     = "10m"
     }
     inline = [
-      "ls -la ~/",
       "chmod +x ~/redis_bootstrap_master.sh",
       "sudo ~/redis_bootstrap_master.sh",
     ]
@@ -167,9 +166,9 @@ resource "null_resource" "redis_master_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_master_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = ["sudo /bin/su -c \"rm -rf /home/opc/iscsiattach.sh\""]
   }
@@ -184,9 +183,9 @@ resource "null_resource" "redis_master_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_master_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     source      = "${path.module}/scripts/iscsiattach.sh"
     destination = "/home/opc/iscsiattach.sh"
@@ -202,13 +201,13 @@ resource "null_resource" "redis_master_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_master_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = ["sudo /bin/su -c \"chown root /home/opc/iscsiattach.sh\"",
       "sudo /bin/su -c \"chmod u+x /home/opc/iscsiattach.sh\"",
-      "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
+    "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
   }
 
   provisioner "remote-exec" {
@@ -221,9 +220,9 @@ resource "null_resource" "redis_master_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_master_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = [
       "sudo -u root parted /dev/sdb --script -- mklabel gpt",
@@ -251,9 +250,9 @@ resource "null_resource" "redis_master_bootstrap_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_master_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
 
     content     = data.template_file.redis_bootstrap_master_template[count.index].rendered
@@ -269,13 +268,11 @@ resource "null_resource" "redis_master_bootstrap_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_master_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = [
-      "ls -la ~/",
-      "cat /home/opc/myssh.sh",
       "chmod +x ~/redis_bootstrap_master.sh",
       "sudo ~/redis_bootstrap_master.sh",
     ]
@@ -325,7 +322,7 @@ resource "null_resource" "redis_replica_attach_volume_without_bastion" {
     }
     inline = ["sudo /bin/su -c \"chown root /home/opc/iscsiattach.sh\"",
       "sudo /bin/su -c \"chmod u+x /home/opc/iscsiattach.sh\"",
-      "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
+    "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
   }
 
   provisioner "remote-exec" {
@@ -379,7 +376,6 @@ resource "null_resource" "redis_replica_bootstrap_without_bastion" {
       timeout     = "10m"
     }
     inline = [
-      "ls -la ~/",
       "chmod +x ~/redis_bootstrap_replica.sh",
       "sudo ~/redis_bootstrap_replica.sh",
     ]
@@ -400,9 +396,9 @@ resource "null_resource" "redis_replica_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = ["sudo /bin/su -c \"rm -rf /home/opc/iscsiattach.sh\""]
   }
@@ -417,9 +413,9 @@ resource "null_resource" "redis_replica_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     source      = "${path.module}/scripts/iscsiattach.sh"
     destination = "/home/opc/iscsiattach.sh"
@@ -435,13 +431,13 @@ resource "null_resource" "redis_replica_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = ["sudo /bin/su -c \"chown root /home/opc/iscsiattach.sh\"",
       "sudo /bin/su -c \"chmod u+x /home/opc/iscsiattach.sh\"",
-      "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
+    "sudo /bin/su -c \"/home/opc/iscsiattach.sh\""]
   }
 
   provisioner "remote-exec" {
@@ -454,9 +450,9 @@ resource "null_resource" "redis_replica_attach_volume_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = [
       "sudo -u root parted /dev/sdb --script -- mklabel gpt",
@@ -484,9 +480,9 @@ resource "null_resource" "redis_replica_bootstrap_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
 
     content     = data.template_file.redis_bootstrap_replica_template[count.index].rendered
@@ -502,9 +498,9 @@ resource "null_resource" "redis_replica_bootstrap_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = [
       "chmod +x ~/redis_bootstrap_replica.sh",
@@ -562,9 +558,9 @@ resource "null_resource" "redis_cluster_setup_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
 
     content     = data.template_file.redis_bootstrap_cluster_template[0].rendered
@@ -580,9 +576,9 @@ resource "null_resource" "redis_cluster_setup_with_bastion" {
       agent               = false
       timeout             = "10m"
       bastion_host        = var.use_private_subnet && var.use_bastion_service ? "host.bastion.${var.region}.oci.oraclecloud.com" : var.bastion_server_public_ip
-      bastion_port        = "22" 
+      bastion_port        = "22"
       bastion_user        = var.use_private_subnet && var.use_bastion_service ? oci_bastion_session.ssh_redis_replica_session[count.index].id : "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     inline = [
       "chmod +x ~/redis_bootstrap_cluster.sh",

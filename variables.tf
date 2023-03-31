@@ -113,7 +113,7 @@ variable "linux_os_version" {
 
 variable "instance_shape" {
   description = "Instance Shape"
-  default     = "BM.Standard3.64"
+  default     = "VM.Standard.E4.Flex"
 }
 
 

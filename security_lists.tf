@@ -60,4 +60,3 @@ resource "oci_core_security_list" "redis-securitylist" {
     }
   }
 }
-
