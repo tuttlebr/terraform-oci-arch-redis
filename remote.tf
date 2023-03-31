@@ -146,6 +146,7 @@ resource "null_resource" "redis_master_bootstrap_without_bastion" {
       timeout     = "10m"
     }
     inline = [
+      "ls -la ~/",
       "chmod +x ~/redis_bootstrap_master.sh",
       "sudo ~/redis_bootstrap_master.sh",
     ]
@@ -273,6 +274,7 @@ resource "null_resource" "redis_master_bootstrap_with_bastion" {
       bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem 
     }
     inline = [
+      "ls -la ~/",
       "chmod +x ~/redis_bootstrap_master.sh",
       "sudo ~/redis_bootstrap_master.sh",
     ]
