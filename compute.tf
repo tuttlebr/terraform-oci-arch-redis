@@ -22,7 +22,7 @@ data "template_cloudinit_config" "cloud_init" {
 resource "oci_core_instance" "redis_master" {
   count               = var.numberOfMasterNodes
   availability_domain = local.availability_domain_name
-  fault_domain        = "FAULT-DOMAIN-1"
+  # fault_domain        = "FAULT-DOMAIN-1"
   compartment_id      = var.compartment_ocid
   display_name        = "redis${count.index + 1}"
   shape               = var.instance_shape
@@ -75,7 +75,7 @@ resource "oci_core_instance" "redis_master" {
 resource "oci_core_instance" "redis_replica" {
   count               = var.numberOfReplicaNodes
   availability_domain = local.availability_domain_name
-  fault_domain        = "FAULT-DOMAIN-2"
+  # fault_domain        = "FAULT-DOMAIN-2"
   compartment_id      = var.compartment_ocid
   display_name        = "redis${count.index + 1 + var.numberOfMasterNodes}"
   shape               = var.instance_shape
